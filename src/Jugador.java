@@ -100,11 +100,16 @@ public class Jugador {
         int puntaje = 0;
         for (int i = 0; i < TOTAL_CARTAS; i++) {
             if (!enGrupo[i]) {
-                int valor = cartas[i].getNombre().ordinal() >= 9 ? 10 : cartas[i].getNombre().ordinal() + 1;
-                puntaje += valor;
+                NombreCarta nombre = cartas[i].getNombre();
+                switch (nombre) {
+                    case AS: case JACK: case QUEEN: case KING:
+                        puntaje += 10;
+                        break;
+                    default:
+                        puntaje += nombre.ordinal() + 1;
+                }
             }
         }
-        
         return puntaje;
-    }
+    }  
 }

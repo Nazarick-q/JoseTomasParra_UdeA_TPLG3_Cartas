@@ -34,8 +34,8 @@ public class FrmJuego extends JFrame {
         pnlJugador2.setLayout(null);
 
         tpJugadores.setBounds(10, 40, 550, 170);
-        tpJugadores.addTab("Martín Estrada Contreras", pnlJugador1);
-        tpJugadores.addTab("Raul Vidal", pnlJugador2);
+        tpJugadores.addTab("Tomas", pnlJugador1);
+        tpJugadores.addTab("Juan", pnlJugador2);
 
         btnRepartir.setBounds(10, 10, 100, 25);
         btnRepartir.setText("Repartir");
@@ -72,14 +72,19 @@ public class FrmJuego extends JFrame {
     }
 
     private void btnVerificarClick(ActionEvent evt) {
+        String mensaje;
         switch (tpJugadores.getSelectedIndex()) {
             case 0:
-                JOptionPane.showMessageDialog(null, jugador1.getGrupos());
+                mensaje = jugador1.getGrupos() + "\nPuntaje: " + jugador1.calcularPuntaje();
                 break;
             case 1:
-                JOptionPane.showMessageDialog(null, jugador2.getGrupos());
+            mensaje = jugador2.getGrupos() + "\nPuntaje: " + jugador2.calcularPuntaje();
+                break;
+            default:
+                mensaje = "No se encontró el jugador";
                 break;
         }
+        JOptionPane.showMessageDialog(null,mensaje);
     }
 
 }
