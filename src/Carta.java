@@ -53,5 +53,4 @@ public class Carta {
         }
         return NombreCarta.values()[residuo - 1];
     }
-
 }

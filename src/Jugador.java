@@ -68,15 +68,20 @@ public class Jugador {
             }
             
             int contador = 0;
+            int maxContador = 0;
             for (int i = 0; i < valores.length; i++) {
                 if (valores[i] == 1) {
                     contador++;
-                    if (contador >= 3) {
-                        mensaje += "Escalera de " + pinta + " con " + contador + " cartas\n";
+                    if (contador > maxContador) {
+                        maxContador = contador;
                     }
                 } else {
                     contador = 0;
                 }
+            }
+            
+            if (maxContador >= 3) {
+                mensaje += "Escalera de " + pinta + " con " + maxContador + " cartas\n";
             }
         }
         
@@ -84,22 +89,48 @@ public class Jugador {
     }
 
     public int calcularPuntaje() {
-        boolean[] enGrupo = new boolean[TOTAL_CARTAS];
+        boolean[] enGrupoOEscalera = new boolean[TOTAL_CARTAS];
+
         int[] contadores = new int[NombreCarta.values().length];
-        
         for (Carta carta : cartas) {
             contadores[carta.getNombre().ordinal()]++;
         }
         
         for (int i = 0; i < TOTAL_CARTAS; i++) {
             if (contadores[cartas[i].getNombre().ordinal()] >= 2) {
-                enGrupo[i] = true;
+                enGrupoOEscalera[i] = true;
             }
         }
         
+        for (Pinta pinta : Pinta.values()) {
+            int[] valores = new int[NombreCarta.values().length];
+            for (int i = 0; i < TOTAL_CARTAS; i++) {
+                if (cartas[i].getPinta() == pinta) {
+                    valores[cartas[i].getNombre().ordinal()] = 1;
+                }
+            }
+            
+            int contador = 0;
+            for (int i = 0; i < valores.length; i++) {
+                if (valores[i] == 1) {
+                    contador++;
+                    if (contador >= 3) {                        for (int j = 0; j < TOTAL_CARTAS; j++) {
+                            if (cartas[j].getPinta() == pinta && 
+                                cartas[j].getNombre().ordinal() <= i && 
+                                cartas[j].getNombre().ordinal() > i - contador) {
+                                enGrupoOEscalera[j] = true;
+                            }
+                        }
+                    }
+                } else {
+                    contador = 0;
+                }
+            }
+        }
+
         int puntaje = 0;
         for (int i = 0; i < TOTAL_CARTAS; i++) {
-            if (!enGrupo[i]) {
+            if (!enGrupoOEscalera[i]) {
                 NombreCarta nombre = cartas[i].getNombre();
                 switch (nombre) {
                     case AS: case JACK: case QUEEN: case KING:
@@ -111,5 +142,5 @@ public class Jugador {
             }
         }
         return puntaje;
-    }  
+    } 
 }

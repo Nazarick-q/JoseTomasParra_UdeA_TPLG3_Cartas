@@ -13,6 +13,7 @@ public class FrmJuego extends JFrame {
 
     private JButton btnRepartir;
     private JButton btnVerificar;
+    private JButton btnPuntaje;
     private JPanel pnlJugador1;
     private JPanel pnlJugador2;
     private JTabbedPane tpJugadores;
@@ -20,9 +21,11 @@ public class FrmJuego extends JFrame {
     public FrmJuego() {
         btnRepartir = new JButton();
         btnVerificar = new JButton();
+        btnPuntaje = new JButton();
         tpJugadores = new JTabbedPane();
         pnlJugador1 = new JPanel();
         pnlJugador2 = new JPanel();
+
 
         setSize(600, 300);
         setTitle("Juego de Cartas");
@@ -52,11 +55,20 @@ public class FrmJuego extends JFrame {
                 btnVerificarClick(evt);
             }
         });
+        
+        btnPuntaje.setBounds(230, 10, 100, 25);
+        btnPuntaje.setText("Puntaje");
+        btnPuntaje.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                btnPuntajeClick(evt);
+            }
+        });
 
         getContentPane().setLayout(null);
         getContentPane().add(tpJugadores);
         getContentPane().add(btnRepartir);
         getContentPane().add(btnVerificar);
+        getContentPane().add(btnPuntaje);
     }
 
     Jugador jugador1 = new Jugador();
@@ -72,13 +84,23 @@ public class FrmJuego extends JFrame {
     }
 
     private void btnVerificarClick(ActionEvent evt) {
+        switch (tpJugadores.getSelectedIndex()) {
+            case 0:
+                JOptionPane.showMessageDialog(null, jugador1.getGrupos());
+                break;
+            case 1:
+                JOptionPane.showMessageDialog(null, jugador2.getGrupos());
+                break;
+        }
+    }
+    private void btnPuntajeClick(ActionEvent evt) {
         String mensaje;
         switch (tpJugadores.getSelectedIndex()) {
             case 0:
-                mensaje = jugador1.getGrupos() + "\nPuntaje: " + jugador1.calcularPuntaje();
+                mensaje = "\nEl puntaje es: " + jugador1.calcularPuntaje();
                 break;
             case 1:
-            mensaje = jugador2.getGrupos() + "\nPuntaje: " + jugador2.calcularPuntaje();
+                mensaje = "\nEl Puntaje es: " + jugador2.calcularPuntaje();
                 break;
             default:
                 mensaje = "No se encontró el jugador";
@@ -86,5 +108,4 @@ public class FrmJuego extends JFrame {
         }
         JOptionPane.showMessageDialog(null,mensaje);
     }
-
 }
